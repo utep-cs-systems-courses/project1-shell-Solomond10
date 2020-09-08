@@ -1,21 +1,32 @@
 #! /usr/bin/env python3
 
-import os, sys
+import os, sys, time
 
 while 1:
 
     parentPid = os.getpid()
     processValue = os.fork()
 
-    if processValue == 0:
-        print("This is the child")
-        print("Child's PID: ", os.getpid())
-        sys.exit(1)
-    else:
-        print("This the parent")
-        print("Parent's PID: ", parentPid)
+    os.write(1, ("Forking is being done").encode())
 
-    print("Enter Y to keep going else the program will stop")
+    
+    if processValue < 0:
+        os.write(1,"The fork has failed")
+        sys.exit(1)
+        
+    elif processValue == 0:
+        os.write(1,("This is the child\n").encode())
+        os.write(1,("Child's PID: %d" %os.getpid()).encode())
+        time.sleep(1)
+        os.write(1, ("\nChild is being terminated").encode())
+        
+    
+
+    else:
+        os.write(1,("\nThis the parent").encode())
+        os.write(1,("\nParent's PID: %d" %parentPid).encode())
+
+    print("\nEnter Y to keep going else the program will stop")
     a = input()
     a = a.lower()
     
@@ -23,3 +34,5 @@ while 1:
         continue
     else:
         break;
+
+sys.exit(1)
