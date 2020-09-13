@@ -15,8 +15,8 @@ while 1:
         sys.exit(1)
         
     elif processValue == 0:
-        os.write(1,("This is the child\n").encode())
-        os.write(1,("Child's PID: %d" %os.getpid()).encode())
+        os.write(1,("\nThis is the child").encode())
+        os.write(1,("\nChild's PID: %d" %os.getpid()).encode())
         time.sleep(1)
         os.write(1, ("\nChild is being terminated").encode())
         
